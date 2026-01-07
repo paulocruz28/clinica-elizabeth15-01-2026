@@ -1,0 +1,149 @@
+/* --- VARIAVEIS --- */
+:root {
+    --primary-color: #D4AF37;
+    --secondary-color: #333333;
+    --bg-light: #F9F9F9;
+    --white: #FFFFFF;
+    --text-color: #555555;
+    --font-title: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+/* --- RESET --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--text-color); line-height: 1.6; }
+
+/* --- UTILITARIOS --- */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section { padding: 80px 0; }
+.bg-light { background-color: var(--bg-light); }
+.section-title { font-family: var(--font-title); font-size: 2.5rem; color: var(--secondary-color); text-align: center; margin-bottom: 50px; }
+.section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--primary-color); margin: 15px auto 0; }
+
+/* --- HEADER --- */
+.header {
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+/* Classe adicionada via JS ao rolar a página */
+.header.scrolled {
+    height: 70px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.logo { font-family: var(--font-title); font-size: 1.8rem; font-weight: 600; color: var(--secondary-color); text-decoration: none; }
+.logo span { color: var(--primary-color); }
+
+/* MENU DESKTOP */
+.navbar { display: flex; align-items: center; gap: 20px; }
+.navbar a { text-decoration: none; color: var(--secondary-color); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; }
+.navbar a:hover { color: var(--primary-color); }
+.btn-contato { background-color: var(--primary-color); color: var(--white) !important; padding: 10px 20px; border-radius: 25px; }
+.btn-contato:hover { background-color: #bfa34a; }
+
+/* --- MENU MOBILE (HAMBURGUER) --- */
+.hamburger { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: all 0.3s ease-in-out; background-color: var(--secondary-color); }
+
+/* --- HERO --- */
+.hero {
+    height: 100vh; /* Altura total da tela */
+    
+    /* --- INÍCIO DA MUDANÇA --- */
+    /* O código abaixo faz duas coisas:
+       1. linear-gradient(...): Cria uma camada preta com 50% de transparência (0.5) sobre a foto. 
+          Isso é essencial para o texto branco ficar legível.
+       2. url('...'): É o caminho para a sua imagem.
+    */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('img/banner-clinica.jpeg');
+    
+    /* Garante que a imagem cubra toda a área sem distorcer e fique centralizada */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* --- FIM DA MUDANÇA --- */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: var(--white);
+    margin-top: 80px; /* Ajuste para o menu fixo não cobrir o topo */
+}
+
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Escurece a imagem para o texto aparecer */
+}
+.hero-content { position: relative; z-index: 2; padding: 0 20px; }
+.hero-content h1 { font-family: var(--font-title); font-size: 3.5rem; margin-bottom: 20px; }
+.hero-content p { font-size: 1.2rem; margin-bottom: 30px; }
+.btn-hero { display: inline-block; background-color: var(--primary-color); color: var(--white); padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; transition: transform 0.3s; border: none; cursor: pointer; }
+.btn-hero:hover { transform: scale(1.05); }
+
+/* --- GRID LAYOUTS --- */
+.split-layout { display: flex; gap: 40px; align-items: center; }
+.split-layout > div { flex: 1; }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+/* --- CARDS & IMGS --- */
+.card { background: var(--white); padding: 30px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 8px; transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+.card h3 { font-family: var(--font-title); color: var(--primary-color); margin-bottom: 15px; }
+img { max-width: 100%; border-radius: 8px; display: block; }
+
+/* --- PROCEDIMENTOS --- */
+.grid-procedimentos { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+.proc-item { text-align: center; width: 150px; }
+.proc-item img { border-radius: 50%; margin: 0 auto 15px; border: 3px solid var(--primary-color); padding: 5px; transition: transform 0.3s; }
+.proc-item:hover img { transform: scale(1.1); }
+
+/* --- EQUIPE --- */
+.team-card { display: flex; background: var(--white); padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-radius: 10px; align-items: center; gap: 30px; max-width: 800px; margin: 0 auto; }
+.team-card img { width: 250px; height: 250px; object-fit: cover; border-radius: 50%; }
+.role { color: var(--primary-color); font-weight: bold; margin-bottom: 15px; text-transform: uppercase; font-size: 0.9rem; }
+
+/* --- BLOG --- */
+.blog-post { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+.post-content { padding: 20px; }
+.read-more { color: var(--primary-color); text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; }
+
+/* --- FORMULARIO --- */
+.contact-form input, .contact-form textarea { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; font-family: var(--font-body); }
+footer { background: var(--secondary-color); color: var(--white); text-align: center; padding: 20px; margin-top: 50px; }
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .hamburger { display: block; z-index: 1001; }
+    
+    /* Quando o menu mobile abre */
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .navbar {
+        position: fixed; left: -100%; top: 70px; gap: 0;
+        flex-direction: column; background-color: var(--white);
+        width: 100%; text-align: center; transition: 0.3s;
+        box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar.active { left: 0; }
+
+    .navbar a { margin: 16px 0; }
+    
+    .hero-content h1 { font-size: 2.5rem; }
+    .split-layout, .team-card { flex-direction: column; text-align: center; }
+}
