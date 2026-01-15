@@ -30,38 +30,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 3. ENVIO REAL PARA O NODE.JS ---
+    // --- 3. ENVIO REAL PARA O NODE.JS (ATUALIZADO) ---
     const form = document.getElementById("form-agendamento");
 
     if(form) {
         form.addEventListener("submit", (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Impede a página de recarregar
             
             // Pega os dados digitados
+            // OBS: O servidor atual espera: nome, telefone, mensagem.
+            // (Email e Queixa serão enviados, mas precisamos atualizar o server.js depois para salvá-los)
             const dados = {
                 nome: document.getElementById("nome").value,
-                email: document.getElementById("email").value,
+                email: document.getElementById("email").value, 
                 queixa: document.getElementById("queixa").value,
                 telefone: document.getElementById("telefone").value,
                 mensagem: document.getElementById("mensagem").value
             };
         
-            // Tenta enviar para o servidor
-            // ATENÇÃO: Se você não tiver o servidor Node.js rodando, vai cair no erro (catch)
-            fetch('/api/agendar', {
+            // Envia para a rota correta que criamos no server.js
+            fetch('/api/salvar-contato', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dados)
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.mensagem || "Envio realizado!"); 
-                form.reset();
+                // Sucesso!
+                alert("Mensagem salva no Banco de Dados com sucesso!"); 
+                console.log("ID do registro:", data.id);
+                form.reset(); // Limpa os campos
             })
             .catch(error => {
                 console.error('Erro:', error);
-                // Mensagem amigável caso o servidor não exista ainda
-                alert("Erro ao conectar com o servidor. (Como é um teste, considere o envio simulado!)");
+                alert("Erro ao conectar com o servidor. Verifique se o comando 'node server.js' está rodando.");
             });
         });
     }
