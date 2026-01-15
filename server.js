@@ -1,29 +1,55 @@
-const express = require('express'); // Importa o Node.js
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 const app = express();
 
-// Permite ler os dados que vêm do formulário
-app.use(express.urlencoded({ extended: true }));
+// 1. Configuração para ler JSON e arquivos do site (HTML/CSS)
 app.use(express.json());
+app.use(express.static(__dirname)); // Serve os arquivos da pasta atual (index.html, style.css, etc.)
 
-// Rota para receber o agendamento (O que acontece quando clicam em Enviar)
-app.post('/api/agendar', (req, res) => {
-    
-    // Aqui estão os dados REAIS que vieram do formulário
-    const nome = req.body.nome;
-    const email = req.body.email;
-    const queixa = req.body.queixa;
-
-    console.log(`Novo cliente: ${nome} - Queixa: ${queixa}`);
-
-    // AQUI ENTRARIA O CÓDIGO DE BANCO DE DADOS OU E-MAIL
-    // Exemplo fictício: bancoDeDados.salvar(nome, email);
-    // Exemplo fictício: enviarEmail(email, "Agendamento Recebido!");
-
-    // Responde para o site que deu tudo certo
-    res.json({ mensagem: "Sucesso! Dra. Elizabeth recebeu seu pedido." });
+// 2. Conexão com Banco de Dados (Cria o arquivo 'clinica.db' se não existir)
+const dbPath = path.resolve(__dirname, 'clinica.db');
+const db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+        console.error('Erro ao conectar ao banco:', err.message);
+    } else {
+        console.log('Conectado ao banco de dados SQLite.');
+    }
 });
 
-// Põe o servidor para rodar na porta 3000
-app.listen(3000, () => {
-    console.log('Servidor rodando! Aguardando agendamentos...');
+// 3. Criação da Tabela (Se não existir)
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS contatos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        telefone TEXT,
+        mensagem TEXT,
+        data_envio DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
+});
+
+// 4. Rota para Receber os Dados (API)
+app.post('/api/salvar-contato', (req, res) => {
+    const { nome, telefone, mensagem } = req.body;
+    
+    // Query SQL para inserir dados
+    const sql = `INSERT INTO contatos (nome, telefone, mensagem) VALUES (?, ?, ?)`;
+    
+    db.run(sql, [nome, telefone, mensagem], function(err) {
+        if (err) {
+            return res.status(500).json({ erro: err.message });
+        }
+        // Retorna sucesso e o ID criado
+        res.json({ 
+            message: "Sucesso!", 
+            id: this.lastID 
+        });
+        console.log(`Novo contato salvo! ID: ${this.lastID}`);
+    });
+});
+
+// 5. Iniciar o Servidor
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em: http://localhost:${PORT}`);
 });

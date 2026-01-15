@@ -146,4 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
         // Torna global para o botão "Quero Agendar Este"
         window.fecharModal = fecharModal;
     }
+    
 });
