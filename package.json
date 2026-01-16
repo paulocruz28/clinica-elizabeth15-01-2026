@@ -1,26 +1,14 @@
 {
   "name": "clinica-elizabeth",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "Site da Clinica Elizabeth Cruz",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/paulocruz28/CLINICA-_EST-TICA.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/paulocruz28/CLINICA-_EST-TICA/issues"
-  },
-  "homepage": "https://github.com/paulocruz28/CLINICA-_EST-TICA#readme",
   "dependencies": {
     "express": "^5.2.1",
     "sqlite3": "^5.1.7"
-  }
+  },
+  "license": "ISC"
 }
